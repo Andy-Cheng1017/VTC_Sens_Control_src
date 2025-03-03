@@ -90,6 +90,40 @@ void wk_tmr3_init(void)
   /* add user code end tmr3_init 2 */
 }
 
+/**
+  * @brief  init tmr15 function.
+  * @param  none
+  * @retval none
+  */
+void wk_tmr15_init(void)
+{
+  /* add user code begin tmr15_init 0 */
+
+  /* add user code end tmr15_init 0 */
+
+
+  /* add user code begin tmr15_init 1 */
+
+  /* add user code end tmr15_init 1 */
+
+  /* configure counter settings */
+  tmr_base_init(TMR15, 65535, 0);
+  tmr_cnt_dir_set(TMR15, TMR_COUNT_UP);
+  tmr_clock_source_div_set(TMR15, TMR_CLOCK_DIV1);
+  tmr_repetition_counter_set(TMR15, 0);
+  tmr_period_buffer_enable(TMR15, FALSE);
+
+  /* configure primary mode settings */
+  tmr_sub_sync_mode_set(TMR15, FALSE);
+  tmr_primary_mode_select(TMR15, TMR_PRIMARY_SEL_RESET);
+
+  tmr_counter_enable(TMR15, TRUE);
+
+  /* add user code begin tmr15_init 2 */
+
+  /* add user code end tmr15_init 2 */
+}
+
 /* add user code begin 1 */
 
 /* add user code end 1 */

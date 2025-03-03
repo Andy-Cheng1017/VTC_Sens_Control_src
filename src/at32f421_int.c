@@ -159,20 +159,20 @@ void UsageFault_Handler(void)
   }
 }
 
-/**
-  * @brief  this function handles svcall exception.
-  * @param  none
-  * @retval none
-  */
-void SVC_Handler(void)
-{
-  /* add user code begin SVCall_IRQ 0 */
+// /**
+//   * @brief  this function handles svcall exception.
+//   * @param  none
+//   * @retval none
+//   */
+// void SVC_Handler(void)
+// {
+//   /* add user code begin SVCall_IRQ 0 */
 
-  /* add user code end SVCall_IRQ 0 */
-  /* add user code begin SVCall_IRQ 1 */
+//   /* add user code end SVCall_IRQ 0 */
+//   /* add user code begin SVCall_IRQ 1 */
 
-  /* add user code end SVCall_IRQ 1 */
-}
+//   /* add user code end SVCall_IRQ 1 */
+// }
 
 /**
   * @brief  this function handles debug monitor exception.
@@ -189,37 +189,37 @@ void DebugMon_Handler(void)
   /* add user code end DebugMonitor_IRQ 1 */
 }
 
-/**
-  * @brief  this function handles pendsv_handler exception.
-  * @param  none
-  * @retval none
-  */
-void PendSV_Handler(void)
-{
-  /* add user code begin PendSV_IRQ 0 */
+// /**
+//   * @brief  this function handles pendsv_handler exception.
+//   * @param  none
+//   * @retval none
+//   */
+// void PendSV_Handler(void)
+// {
+//   /* add user code begin PendSV_IRQ 0 */
 
-  /* add user code end PendSV_IRQ 0 */
-  /* add user code begin PendSV_IRQ 1 */
+//   /* add user code end PendSV_IRQ 0 */
+//   /* add user code begin PendSV_IRQ 1 */
 
-  /* add user code end PendSV_IRQ 1 */
-}
+//   /* add user code end PendSV_IRQ 1 */
+// }
 
-/**
-  * @brief  this function handles systick handler.
-  * @param  none
-  * @retval none
-  */
-void SysTick_Handler(void)
-{
-  /* add user code begin SysTick_IRQ 0 */
+// /**
+//   * @brief  this function handles systick handler.
+//   * @param  none
+//   * @retval none
+//   */
+// void SysTick_Handler(void)
+// {
+//   /* add user code begin SysTick_IRQ 0 */
 
-  /* add user code end SysTick_IRQ 0 */
+//   /* add user code end SysTick_IRQ 0 */
 
 
-  /* add user code begin SysTick_IRQ 1 */
+//   /* add user code begin SysTick_IRQ 1 */
 
-  /* add user code end SysTick_IRQ 1 */
-}
+//   /* add user code end SysTick_IRQ 1 */
+// }
 
 /* add user code begin 1 */
 

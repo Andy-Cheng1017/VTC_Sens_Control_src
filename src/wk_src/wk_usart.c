@@ -1,27 +1,27 @@
 /* add user code begin Header */
 /**
-  **************************************************************************
-  * @file     wk_usart.c
-  * @brief    work bench config program
-  **************************************************************************
-  *                       Copyright notice & Disclaimer
-  *
-  * The software Board Support Package (BSP) that is made available to
-  * download from Artery official website is the copyrighted work of Artery.
-  * Artery authorizes customers to use, copy, and distribute the BSP
-  * software and its related documentation for the purpose of design and
-  * development in conjunction with Artery microcontrollers. Use of the
-  * software is governed by this copyright notice and the following disclaimer.
-  *
-  * THIS SOFTWARE IS PROVIDED ON "AS IS" BASIS WITHOUT WARRANTIES,
-  * GUARANTEES OR REPRESENTATIONS OF ANY KIND. ARTERY EXPRESSLY DISCLAIMS,
-  * TO THE FULLEST EXTENT PERMITTED BY LAW, ALL EXPRESS, IMPLIED OR
-  * STATUTORY OR OTHER WARRANTIES, GUARANTEES OR REPRESENTATIONS,
-  * INCLUDING BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY,
-  * FITNESS FOR A PARTICULAR PURPOSE, OR NON-INFRINGEMENT.
-  *
-  **************************************************************************
-  */
+ **************************************************************************
+ * @file     wk_usart.c
+ * @brief    work bench config program
+ **************************************************************************
+ *                       Copyright notice & Disclaimer
+ *
+ * The software Board Support Package (BSP) that is made available to
+ * download from Artery official website is the copyrighted work of Artery.
+ * Artery authorizes customers to use, copy, and distribute the BSP
+ * software and its related documentation for the purpose of design and
+ * development in conjunction with Artery microcontrollers. Use of the
+ * software is governed by this copyright notice and the following disclaimer.
+ *
+ * THIS SOFTWARE IS PROVIDED ON "AS IS" BASIS WITHOUT WARRANTIES,
+ * GUARANTEES OR REPRESENTATIONS OF ANY KIND. ARTERY EXPRESSLY DISCLAIMS,
+ * TO THE FULLEST EXTENT PERMITTED BY LAW, ALL EXPRESS, IMPLIED OR
+ * STATUTORY OR OTHER WARRANTIES, GUARANTEES OR REPRESENTATIONS,
+ * INCLUDING BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE, OR NON-INFRINGEMENT.
+ *
+ **************************************************************************
+ */
 /* add user code end Header */
 
 /* Includes ------------------------------------------------------------------*/
@@ -32,12 +32,11 @@
 /* add user code end 0 */
 
 /**
-  * @brief  init usart1 function
-  * @param  none
-  * @retval none
-  */
-void wk_usart1_init(void)
-{
+ * @brief  init usart1 function
+ * @param  none
+ * @retval none
+ */
+void wk_usart1_init(void) {
   /* add user code begin usart1_init 0 */
 
   /* add user code end usart1_init 0 */
@@ -75,10 +74,18 @@ void wk_usart1_init(void)
 
   usart_hardware_flow_control_set(USART1, USART_HARDWARE_FLOW_NONE);
 
+  /**
+   * Users need to configure USART1 interrupt functions according to the actual application.
+   * 1. Call the below function to enable the corresponding USART1 interrupt.
+   *     --usart_interrupt_enable(...)
+   * 2. Add the user's interrupt handler code into the below function in the at32f421_int.c file.
+   *     --void USART1_IRQHandler(void)
+   */
+
   /* add user code begin usart1_init 2 */
 
   /* add user code end usart1_init 2 */
-  
+
   usart_enable(USART1, TRUE);
 
   /* add user code begin usart1_init 3 */
@@ -87,12 +94,11 @@ void wk_usart1_init(void)
 }
 
 /**
-  * @brief  init usart2 function
-  * @param  none
-  * @retval none
-  */
-void wk_usart2_init(void)
-{
+ * @brief  init usart2 function
+ * @param  none
+ * @retval none
+ */
+void wk_usart2_init(void) {
   /* add user code begin usart2_init 0 */
 
   /* add user code end usart2_init 0 */
@@ -130,10 +136,18 @@ void wk_usart2_init(void)
 
   usart_hardware_flow_control_set(USART2, USART_HARDWARE_FLOW_NONE);
 
+  /**
+   * Users need to configure USART2 interrupt functions according to the actual application.
+   * 1. Call the below function to enable the corresponding USART2 interrupt.
+   *     --usart_interrupt_enable(...)
+   * 2. Add the user's interrupt handler code into the below function in the at32f421_int.c file.
+   *     --void USART2_IRQHandler(void)
+   */
+
   /* add user code begin usart2_init 2 */
 
   /* add user code end usart2_init 2 */
-  
+
   usart_enable(USART2, TRUE);
 
   /* add user code begin usart2_init 3 */
