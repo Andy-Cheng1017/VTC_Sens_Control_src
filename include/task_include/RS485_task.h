@@ -3,9 +3,6 @@
 
 #include "FreeRTOS.h"
 #include "task.h"
-#include "RS485.h"
-#include "RS485_Region_handler.h"
-
 
 extern TaskHandle_t RS485Task_Handler;
 

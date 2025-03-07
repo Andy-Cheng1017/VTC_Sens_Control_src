@@ -17,6 +17,8 @@ typedef struct {
   int16_t press_1_val;
   int16_t press_2_val;
   uint8_t leak_sensor;
+  int16_t temperature;
+  int16_t humidity;
 } SensStat_t;
 
 extern SensStat_t SensStat;

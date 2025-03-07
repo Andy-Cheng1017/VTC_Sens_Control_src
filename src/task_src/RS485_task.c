@@ -2,6 +2,8 @@
 #include "RS485_task.h"
 #include "FreeRTOS.h"
 #include "task.h"
+#include "RS485.h"
+#include "RS485_Region_handler.h"
 
 #define MY_485_ADDR 0x22
 
@@ -36,8 +38,8 @@ void USART2_IRQHandler(void) {
 
 void RS485_task_function(void* parameter) {
   RsInit(&RsSens);
-  RsSens.reg_hdle_stat = 0x34;
-  RsSens.reg_hdle_end = 0x4c;
+  RsSens.reg_hdle_stat = 0x50;
+  RsSens.reg_hdle_end = 0x58;
   RsRegHdle(&RsSens, DataRead_Handler);
 
   RsError_t err;

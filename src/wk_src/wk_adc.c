@@ -1,27 +1,27 @@
 /* add user code begin Header */
 /**
-  **************************************************************************
-  * @file     wk_adc.c
-  * @brief    work bench config program
-  **************************************************************************
-  *                       Copyright notice & Disclaimer
-  *
-  * The software Board Support Package (BSP) that is made available to
-  * download from Artery official website is the copyrighted work of Artery.
-  * Artery authorizes customers to use, copy, and distribute the BSP
-  * software and its related documentation for the purpose of design and
-  * development in conjunction with Artery microcontrollers. Use of the
-  * software is governed by this copyright notice and the following disclaimer.
-  *
-  * THIS SOFTWARE IS PROVIDED ON "AS IS" BASIS WITHOUT WARRANTIES,
-  * GUARANTEES OR REPRESENTATIONS OF ANY KIND. ARTERY EXPRESSLY DISCLAIMS,
-  * TO THE FULLEST EXTENT PERMITTED BY LAW, ALL EXPRESS, IMPLIED OR
-  * STATUTORY OR OTHER WARRANTIES, GUARANTEES OR REPRESENTATIONS,
-  * INCLUDING BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY,
-  * FITNESS FOR A PARTICULAR PURPOSE, OR NON-INFRINGEMENT.
-  *
-  **************************************************************************
-  */
+ **************************************************************************
+ * @file     wk_adc.c
+ * @brief    work bench config program
+ **************************************************************************
+ *                       Copyright notice & Disclaimer
+ *
+ * The software Board Support Package (BSP) that is made available to
+ * download from Artery official website is the copyrighted work of Artery.
+ * Artery authorizes customers to use, copy, and distribute the BSP
+ * software and its related documentation for the purpose of design and
+ * development in conjunction with Artery microcontrollers. Use of the
+ * software is governed by this copyright notice and the following disclaimer.
+ *
+ * THIS SOFTWARE IS PROVIDED ON "AS IS" BASIS WITHOUT WARRANTIES,
+ * GUARANTEES OR REPRESENTATIONS OF ANY KIND. ARTERY EXPRESSLY DISCLAIMS,
+ * TO THE FULLEST EXTENT PERMITTED BY LAW, ALL EXPRESS, IMPLIED OR
+ * STATUTORY OR OTHER WARRANTIES, GUARANTEES OR REPRESENTATIONS,
+ * INCLUDING BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE, OR NON-INFRINGEMENT.
+ *
+ **************************************************************************
+ */
 /* add user code end Header */
 
 /* Includes ------------------------------------------------------------------*/
@@ -32,12 +32,11 @@
 /* add user code end 0 */
 
 /**
-  * @brief  init adc1 function.
-  * @param  none
-  * @retval none
-  */
-void wk_adc1_init(void)
-{
+ * @brief  init adc1 function.
+ * @param  none
+ * @retval none
+ */
+void wk_adc1_init(void) {
   /* add user code begin adc1_init 0 */
 
   /* add user code end adc1_init 0 */
@@ -71,20 +70,19 @@ void wk_adc1_init(void)
   adc_base_struct.sequence_mode = TRUE;
   adc_base_struct.repeat_mode = FALSE;
   adc_base_struct.data_align = ADC_RIGHT_ALIGNMENT;
-  adc_base_struct.ordinary_channel_length = 1;
+  adc_base_struct.ordinary_channel_length = 3;
   adc_base_config(ADC1, &adc_base_struct);
 
-  /* adc_preempt_conversionmode--------------------------------------------- */
-  adc_preempt_channel_length_set(ADC1, 3);
+  /* adc_ordinary_conversionmode-------------------------------------------- */
+  adc_ordinary_channel_set(ADC1, ADC_CHANNEL_0, 1, ADC_SAMPLETIME_239_5);
+  adc_ordinary_channel_set(ADC1, ADC_CHANNEL_1, 2, ADC_SAMPLETIME_239_5);
+  adc_ordinary_channel_set(ADC1, ADC_CHANNEL_17, 3, ADC_SAMPLETIME_239_5);
 
-  adc_preempt_channel_set(ADC1, ADC_CHANNEL_0, 1, ADC_SAMPLETIME_239_5);
-  adc_preempt_offset_value_set(ADC1, ADC_PREEMPT_CHANNEL_1, 0x0);
-  adc_preempt_channel_set(ADC1, ADC_CHANNEL_1, 2, ADC_SAMPLETIME_239_5);
-  adc_preempt_offset_value_set(ADC1, ADC_PREEMPT_CHANNEL_2, 0);
-  adc_preempt_channel_set(ADC1, ADC_CHANNEL_17, 3, ADC_SAMPLETIME_239_5);
-  adc_preempt_offset_value_set(ADC1, ADC_PREEMPT_CHANNEL_3, 0x0);
-  adc_preempt_conversion_trigger_set(ADC1, ADC12_PREEMPT_TRIG_TMR15TRGOUT, TRUE);
+  adc_ordinary_conversion_trigger_set(ADC1, ADC12_ORDINARY_TRIG_TMR3TRGOUT, TRUE);
 
+  adc_ordinary_part_mode_enable(ADC1, FALSE);
+
+  adc_dma_mode_enable(ADC1, TRUE);
   /* add user code begin adc1_init 2 */
 
   /* add user code end adc1_init 2 */
@@ -93,9 +91,9 @@ void wk_adc1_init(void)
 
   /* adc calibration-------------------------------------------------------- */
   adc_calibration_init(ADC1);
-  while(adc_calibration_init_status_get(ADC1));
+  while (adc_calibration_init_status_get(ADC1));
   adc_calibration_start(ADC1);
-  while(adc_calibration_status_get(ADC1));
+  while (adc_calibration_status_get(ADC1));
 
   /* add user code begin adc1_init 3 */
 

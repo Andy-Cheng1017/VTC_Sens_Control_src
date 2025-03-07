@@ -1,27 +1,27 @@
 /* add user code begin Header */
 /**
-  **************************************************************************
-  * @file     wk_dma.c
-  * @brief    work bench config program
-  **************************************************************************
-  *                       Copyright notice & Disclaimer
-  *
-  * The software Board Support Package (BSP) that is made available to
-  * download from Artery official website is the copyrighted work of Artery.
-  * Artery authorizes customers to use, copy, and distribute the BSP
-  * software and its related documentation for the purpose of design and
-  * development in conjunction with Artery microcontrollers. Use of the
-  * software is governed by this copyright notice and the following disclaimer.
-  *
-  * THIS SOFTWARE IS PROVIDED ON "AS IS" BASIS WITHOUT WARRANTIES,
-  * GUARANTEES OR REPRESENTATIONS OF ANY KIND. ARTERY EXPRESSLY DISCLAIMS,
-  * TO THE FULLEST EXTENT PERMITTED BY LAW, ALL EXPRESS, IMPLIED OR
-  * STATUTORY OR OTHER WARRANTIES, GUARANTEES OR REPRESENTATIONS,
-  * INCLUDING BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY,
-  * FITNESS FOR A PARTICULAR PURPOSE, OR NON-INFRINGEMENT.
-  *
-  **************************************************************************
-  */
+ **************************************************************************
+ * @file     wk_dma.c
+ * @brief    work bench config program
+ **************************************************************************
+ *                       Copyright notice & Disclaimer
+ *
+ * The software Board Support Package (BSP) that is made available to
+ * download from Artery official website is the copyrighted work of Artery.
+ * Artery authorizes customers to use, copy, and distribute the BSP
+ * software and its related documentation for the purpose of design and
+ * development in conjunction with Artery microcontrollers. Use of the
+ * software is governed by this copyright notice and the following disclaimer.
+ *
+ * THIS SOFTWARE IS PROVIDED ON "AS IS" BASIS WITHOUT WARRANTIES,
+ * GUARANTEES OR REPRESENTATIONS OF ANY KIND. ARTERY EXPRESSLY DISCLAIMS,
+ * TO THE FULLEST EXTENT PERMITTED BY LAW, ALL EXPRESS, IMPLIED OR
+ * STATUTORY OR OTHER WARRANTIES, GUARANTEES OR REPRESENTATIONS,
+ * INCLUDING BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE, OR NON-INFRINGEMENT.
+ *
+ **************************************************************************
+ */
 /* add user code end Header */
 
 /* Includes ------------------------------------------------------------------*/
@@ -32,12 +32,11 @@
 /* add user code end 0 */
 
 /**
-  * @brief  init dma1 channel1 for "adc1"
-  * @param  none
-  * @retval none
-  */
-void wk_dma1_channel1_init(void)
-{
+ * @brief  init dma1 channel1 for "adc1"
+ * @param  none
+ * @retval none
+ */
+void wk_dma1_channel1_init(void) {
   /* add user code begin dma1_channel1 0 */
 
   /* add user code end dma1_channel1 0 */
@@ -61,15 +60,14 @@ void wk_dma1_channel1_init(void)
 }
 
 /**
-  * @brief  config dma channel transfer parameter
-  * @param  dmax_channely: DMAx_CHANNELy
-  * @param  peripheral_base_addr: peripheral address.
-  * @param  memory_base_addr: memory address.
-  * @param  buffer_size: buffer size.
-  * @retval none
-  */
-void wk_dma_channel_config(dma_channel_type* dmax_channely, uint32_t peripheral_base_addr, uint32_t memory_base_addr, uint16_t buffer_size)
-{
+ * @brief  config dma channel transfer parameter
+ * @param  dmax_channely: DMAx_CHANNELy
+ * @param  peripheral_base_addr: peripheral address.
+ * @param  memory_base_addr: memory address.
+ * @param  buffer_size: buffer size.
+ * @retval none
+ */
+void wk_dma_channel_config(dma_channel_type* dmax_channely, uint32_t peripheral_base_addr, uint32_t memory_base_addr, uint16_t buffer_size) {
   /* add user code begin dma_channel_config 0 */
 
   /* add user code end dma_channel_config 0 */
