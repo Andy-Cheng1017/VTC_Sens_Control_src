@@ -122,11 +122,11 @@ int main(void) {
 
 void start_task(void* pvParameters) {
   vTaskDelay(100);
-  xTaskCreate((TaskFunction_t)pt100_task_function, (const char*)"pt100_task", (uint16_t)PT100_STK_SIZE, (void*)NULL, (UBaseType_t)PT100_TASK_PRIO,
-              (TaskHandle_t*)&pt100_handler);
-  vTaskDelay(100);
   xTaskCreate((TaskFunction_t)RS485_task_function, (const char*)"RS485_task", (uint16_t)RS485_STK_SIZE, (void*)NULL, (UBaseType_t)RS485_TASK_PRIO,
               (TaskHandle_t*)&RS485Task_Handler);
+  vTaskDelay(100);
+  xTaskCreate((TaskFunction_t)pt100_task_function, (const char*)"pt100_task", (uint16_t)PT100_STK_SIZE, (void*)NULL, (UBaseType_t)PT100_TASK_PRIO,
+              (TaskHandle_t*)&pt100_handler);
   vTaskDelay(100);
   xTaskCreate((TaskFunction_t)pressure_task_function, (const char*)"pressure_task", (uint16_t)PRESSURE_STK_SIZE, (void*)NULL,
               (UBaseType_t)PRESSURE_TASK_PRIO, (TaskHandle_t*)&pressure_handler);

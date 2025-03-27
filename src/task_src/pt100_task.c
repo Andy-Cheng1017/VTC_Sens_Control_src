@@ -5,7 +5,7 @@
 #include "MCP342x_wrap.h"
 #include "Two_Pt_Cal.h"
 
-#define PT100_TASK_PERIOD 2000
+#define PT100_TASK_PERIOD 1000
 
 MCP342x_error_t err;
 
