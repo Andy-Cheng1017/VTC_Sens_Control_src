@@ -31,7 +31,6 @@ void USART2_IRQHandler(void) {
   } else if (usart_interrupt_flag_get(RsSens.UART, USART_TDBE_FLAG) != RESET) {
     usart_flag_clear(RsSens.UART, USART_TDBE_FLAG);
     usart_interrupt_enable(RsSens.UART, USART_TDBE_INT, FALSE);
-    RsSens.tx_idex--;
     RS485_Tx_Data_ISR(&RsSens);
   }
 }

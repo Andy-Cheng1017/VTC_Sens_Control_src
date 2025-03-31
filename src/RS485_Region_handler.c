@@ -26,6 +26,15 @@ uint32_t DataRead_Handler(RsFunc_t func, uint16_t addr, uint16_t data, uint8_t l
       default:
         return ILLIGAL_DATA_ADDR << 16;
     }
+  } else if (func == WRITE_SINGLE_REGISTER || func == WRITE_MULTIPLE_REGISTERS) {
+    switch (addr) {
+      case 0x0057:
+        return (SensStat.temperature = data) & 0xFFFF;
+      case 0x0058:
+        return (SensStat.humidity = data) & 0xFFFF;
+      default:
+        return ILLIGAL_DATA_ADDR << 16;
+    }
   } else {
     return ILLIGAL_FUNC << 16;
   }

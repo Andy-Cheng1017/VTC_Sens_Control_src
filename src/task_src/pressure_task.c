@@ -3,8 +3,11 @@
 #include "pressure_task.h"
 #include "SensConvVal.h"
 #include "Two_Pt_Cal.h"
+#include "FG_RPM.h"
 
 #define PRESSURE_TASK_PERIOD 500
+
+SensStat_t SensStat = {0};
 
 uint16_t adc1_ordinary_valuetab[ADC1_SAMPLE_NUM][ADC1_CHANNEL_NUM] = {0};
 
@@ -48,8 +51,6 @@ SensConvVal_t PressConv = {
     .adc_res = 4095,
     .adc_ref = 3.3f,
 };
-
-SensStat_t SensStat = {0};
 
 void pressure_task_function(void* pvParameters) {
   int32_t raw_val = 0;

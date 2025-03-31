@@ -64,9 +64,8 @@
 /**
  * @brief  system clock config program
  * @note   the system clock is configured as follow:
- *         system clock (sclk)   = hext * pll_mult
- *         system clock source   = HEXT_VALUE
- *         - hext                = HEXT_VALUE
+ *         system clock (sclk)   = hick / 12 * pll_mult
+ *         system clock source   = HICK_VALUE
  *         - sclk                = 120000000
  *         - ahbdiv              = 1
  *         - ahbclk              = 120000000
@@ -74,7 +73,7 @@
  *         - apb1clk             = 120000000
  *         - apb2div             = 1
  *         - apb2clk             = 120000000
- *         - pll_mult            = 15
+ *         - pll_mult            = 30
  *         - flash_wtcyc         = 3 cycle
  * @param  none
  * @retval none
@@ -93,13 +92,6 @@ void wk_system_clock_config(void) {
   while (crm_flag_get(CRM_LICK_STABLE_FLAG) != SET) {
   }
 
-  /* enable hext */
-  crm_clock_source_enable(CRM_CLOCK_SOURCE_HEXT, TRUE);
-
-  /* wait till hext is ready */
-  while (crm_hext_stable_wait() == ERROR) {
-  }
-
   /* enable hick */
   crm_clock_source_enable(CRM_CLOCK_SOURCE_HICK, TRUE);
 
@@ -108,7 +100,7 @@ void wk_system_clock_config(void) {
   }
 
   /* config pll clock resource */
-  crm_pll_config(CRM_PLL_SOURCE_HEXT, CRM_PLL_MULT_15);
+  crm_pll_config(CRM_PLL_SOURCE_HICK, CRM_PLL_MULT_30);
 
   /* enable pll */
   crm_clock_source_enable(CRM_CLOCK_SOURCE_PLL, TRUE);
@@ -161,9 +153,6 @@ void wk_periph_clock_config(void) {
   /* enable gpiob periph clock */
   crm_periph_clock_enable(CRM_GPIOB_PERIPH_CLOCK, TRUE);
 
-  /* enable gpiof periph clock */
-  crm_periph_clock_enable(CRM_GPIOF_PERIPH_CLOCK, TRUE);
-
   /* enable scfg periph clock */
   crm_periph_clock_enable(CRM_SCFG_PERIPH_CLOCK, TRUE);
 
@@ -175,6 +164,12 @@ void wk_periph_clock_config(void) {
 
   /* enable tmr15 periph clock */
   crm_periph_clock_enable(CRM_TMR15_PERIPH_CLOCK, TRUE);
+
+  /* enable tmr16 periph clock */
+  crm_periph_clock_enable(CRM_TMR16_PERIPH_CLOCK, TRUE);
+
+  /* enable tmr17 periph clock */
+  crm_periph_clock_enable(CRM_TMR17_PERIPH_CLOCK, TRUE);
 
   /* enable tmr3 periph clock */
   crm_periph_clock_enable(CRM_TMR3_PERIPH_CLOCK, TRUE);
@@ -204,6 +199,8 @@ void wk_nvic_config(void) {
   NVIC_SetPriority(DebugMonitor_IRQn, NVIC_EncodePriority(NVIC_GetPriorityGrouping(), 0, 0));
   NVIC_SetPriority(PendSV_IRQn, NVIC_EncodePriority(NVIC_GetPriorityGrouping(), 0, 0));
   NVIC_SetPriority(SysTick_IRQn, NVIC_EncodePriority(NVIC_GetPriorityGrouping(), 15, 0));
+  nvic_irq_enable(EXINT3_2_IRQn, 0, 0);
+  nvic_irq_enable(EXINT15_4_IRQn, 0, 0);
   nvic_irq_enable(USART1_IRQn, 0, 0);
   nvic_irq_enable(USART2_IRQn, 0, 0);
 }

@@ -41,9 +41,10 @@
 #include "pressure_task.h"
 #include "pt100_task.h"
 #include "RS485_task.h"
+#include "temp_hum_task.h"
 
 #define START_TASK_PRIO 1
-#define START_STK_SIZE 256
+#define START_STK_SIZE 128
 
 #define PT100_TASK_PRIO 3
 #define PT100_STK_SIZE 256
@@ -54,8 +55,35 @@
 #define PRESSURE_TASK_PRIO 3
 #define PRESSURE_STK_SIZE 512
 
+#define TEMP_HUM_TASK_PRIO 2
+#define TEMP_HUM_STK_SIZE 512
+
+#define SET_BIT_TO(var, bit, value) ((var) = (value) ? ((var) & ~(1 << (bit))) : ((var) | (1 << (bit))))
+
 TaskHandle_t StartTask_Handler;
 void start_task(void* pvParameters);
+
+void EXINT3_2_IRQHandler(void) {
+  if (exint_interrupt_flag_get(EXINT_LINE_3) != RESET) {
+    exint_flag_clear(EXINT_LINE_3);
+    SET_BIT_TO(SensStat.leak_sensor, 1, gpio_input_data_bit_read(GPIOB, GPIO_PINS_3));
+  }
+}
+
+void EXINT15_4_IRQHandler(void) {
+  if (exint_interrupt_flag_get(EXINT_LINE_7) != RESET) {
+    exint_flag_clear(EXINT_LINE_7);
+    SET_BIT_TO(SensStat.leak_sensor, 2, gpio_input_data_bit_read(GPIOB, GPIO_PINS_7));
+  }
+  if (exint_interrupt_flag_get(EXINT_LINE_8) != RESET) {
+    exint_flag_clear(EXINT_LINE_8);
+    SET_BIT_TO(SensStat.leak_sensor, 3, gpio_input_data_bit_read(GPIOB, GPIO_PINS_8));
+  }
+  if (exint_interrupt_flag_get(EXINT_LINE_15) != RESET) {
+    exint_flag_clear(EXINT_LINE_15);
+    SET_BIT_TO(SensStat.leak_sensor, 0, gpio_input_data_bit_read(GPIOA, GPIO_PINS_15));
+  }
+}
 
 int main(void) {
   /* add user code begin 1 */
@@ -112,6 +140,18 @@ int main(void) {
   wk_tmr15_init();
 
   /* add user code begin 2 */
+  exint_interrupt_enable(EXINT_LINE_3, TRUE);
+  exint_software_interrupt_event_generate(EXINT_LINE_3);
+  wk_delay_ms(1);
+  exint_interrupt_enable(EXINT_LINE_7, TRUE);
+  exint_software_interrupt_event_generate(EXINT_LINE_7);
+  wk_delay_ms(1);
+  exint_interrupt_enable(EXINT_LINE_8, TRUE);
+  exint_software_interrupt_event_generate(EXINT_LINE_8);
+  wk_delay_ms(1);
+  exint_interrupt_enable(EXINT_LINE_15, TRUE);
+  exint_software_interrupt_event_generate(EXINT_LINE_15);
+  wk_delay_ms(1);
 
   /* add user code end 2 */
 
@@ -130,5 +170,9 @@ void start_task(void* pvParameters) {
   vTaskDelay(100);
   xTaskCreate((TaskFunction_t)pressure_task_function, (const char*)"pressure_task", (uint16_t)PRESSURE_STK_SIZE, (void*)NULL,
               (UBaseType_t)PRESSURE_TASK_PRIO, (TaskHandle_t*)&pressure_handler);
+  vTaskDelay(100);
+  xTaskCreate((TaskFunction_t)temp_hum_task_function, (const char*)"Temp_Hum_task", (uint16_t)TEMP_HUM_STK_SIZE, (void*)NULL,
+              (UBaseType_t)TEMP_HUM_TASK_PRIO, (TaskHandle_t*)&temp_hum_handler);
+  vTaskDelay(100);
   vTaskDelete(StartTask_Handler);
 }
