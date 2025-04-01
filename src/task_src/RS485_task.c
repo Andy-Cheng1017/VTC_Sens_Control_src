@@ -1,8 +1,13 @@
 #include <stdio.h>
-#include "RS485_task.h"
 #include "FreeRTOS.h"
 #include "task.h"
+
+#define SINGLE_DATA_MAX_SIZE 64
+#define MAX_CIRCLE_BUFFER_SIZE 128
+#define MAX_PKG_SIZE 128
+
 #include "RS485.h"
+#include "RS485_task.h"
 #include "RS485_Region_handler.h"
 
 #define MY_485_ADDR 0x22
@@ -37,8 +42,8 @@ void USART2_IRQHandler(void) {
 
 void RS485_task_function(void* parameter) {
   RsInit(&RsSens);
-  RsSens.reg_hdle_stat = 0x50;
-  RsSens.reg_hdle_end = 0x58;
+  RsSens.reg_hdle_stat = 0x70;
+  RsSens.reg_hdle_end = 0x7F;
   RsRegHdle(&RsSens, DataRead_Handler);
 
   RsError_t err;

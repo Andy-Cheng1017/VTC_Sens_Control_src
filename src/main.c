@@ -53,10 +53,10 @@
 #define RS485_STK_SIZE 512
 
 #define PRESSURE_TASK_PRIO 3
-#define PRESSURE_STK_SIZE 512
+#define PRESSURE_STK_SIZE 256
 
 #define TEMP_HUM_TASK_PRIO 2
-#define TEMP_HUM_STK_SIZE 512
+#define TEMP_HUM_STK_SIZE 256
 
 #define SET_BIT_TO(var, bit, value) ((var) = (value) ? ((var) & ~(1 << (bit))) : ((var) | (1 << (bit))))
 

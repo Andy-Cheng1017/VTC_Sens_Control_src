@@ -6,6 +6,11 @@
 #include <string.h>
 #include "FreeRTOS.h"
 #include "task.h"
+
+#define SINGLE_DATA_MAX_SIZE 16
+#define MAX_CIRCLE_BUFFER_SIZE 32
+#define MAX_PKG_SIZE 16
+
 #include "RS485.h"
 #include "temp_hum_task.h"
 
@@ -77,7 +82,7 @@ void temp_hum_task_function(void *pvParameters) {
           break;
         } else {
         }
-        RsTempHum.reg_hdle_stat = 0X57;
+        RsTempHum.reg_hdle_stat = 0X77;
 
         ret = RS485ReadHandler(&RsTempHum);
 
