@@ -7,7 +7,8 @@
 
 #define PRESSURE_TASK_PERIOD 500
 
-SensStat_t SensStat = {0};
+SensCardStat_t SensCardStat = {0};
+SensCardCtrl_t SensCardCtrl = {0};
 
 uint16_t adc1_ordinary_valuetab[ADC1_SAMPLE_NUM][ADC1_CHANNEL_NUM] = {0};
 
@@ -80,11 +81,11 @@ void pressure_task_function(void* pvParameters) {
 
     err_conv = Conv_GetVal_Volt(&PressConv, (((float)(adc_sum_val[0] >> SMP_NUM_PWR)) / (adc_sum_val[ADC1_CHANNEL_NUM - 1] >> SMP_NUM_PWR)) * 1.2f,
                                 &raw_val);
-    SensStat.press_1_val = (int16_t)Cal_Apply(&PressCal_1, raw_val);
+    SensCardStat.press_1_val_kpa = (int16_t)Cal_Apply(&PressCal_1, raw_val);
 
     err_conv = Conv_GetVal_Volt(&PressConv, (((float)(adc_sum_val[1] >> SMP_NUM_PWR)) / (adc_sum_val[ADC1_CHANNEL_NUM - 1] >> SMP_NUM_PWR)) * 1.2f,
                                 &raw_val);
-    SensStat.press_2_val = (int16_t)Cal_Apply(&PressCal_2, raw_val);
+    SensCardStat.press_2_val_kpa = (int16_t)Cal_Apply(&PressCal_2, raw_val);
   }
 
   vTaskDelete(NULL);

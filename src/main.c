@@ -70,22 +70,22 @@ void start_task(void* pvParameters);
 void EXINT3_2_IRQHandler(void) {
   if (exint_interrupt_flag_get(EXINT_LINE_3) != RESET) {
     exint_flag_clear(EXINT_LINE_3);
-    SET_BIT_TO(SensStat.leak_sensor, 1, gpio_input_data_bit_read(GPIOB, GPIO_PINS_3));
+    SET_BIT_TO(SensCardStat.leak_sensor, 1, gpio_input_data_bit_read(GPIOB, GPIO_PINS_3));
   }
 }
 
 void EXINT15_4_IRQHandler(void) {
   if (exint_interrupt_flag_get(EXINT_LINE_7) != RESET) {
     exint_flag_clear(EXINT_LINE_7);
-    SET_BIT_TO(SensStat.leak_sensor, 2, gpio_input_data_bit_read(GPIOB, GPIO_PINS_7));
+    SET_BIT_TO(SensCardStat.leak_sensor, 2, gpio_input_data_bit_read(GPIOB, GPIO_PINS_7));
   }
   if (exint_interrupt_flag_get(EXINT_LINE_8) != RESET) {
     exint_flag_clear(EXINT_LINE_8);
-    SET_BIT_TO(SensStat.leak_sensor, 3, gpio_input_data_bit_read(GPIOB, GPIO_PINS_8));
+    SET_BIT_TO(SensCardStat.leak_sensor, 3, gpio_input_data_bit_read(GPIOB, GPIO_PINS_8));
   }
   if (exint_interrupt_flag_get(EXINT_LINE_15) != RESET) {
     exint_flag_clear(EXINT_LINE_15);
-    SET_BIT_TO(SensStat.leak_sensor, 0, gpio_input_data_bit_read(GPIOA, GPIO_PINS_15));
+    SET_BIT_TO(SensCardStat.leak_sensor, 0, gpio_input_data_bit_read(GPIOA, GPIO_PINS_15));
   }
 }
 

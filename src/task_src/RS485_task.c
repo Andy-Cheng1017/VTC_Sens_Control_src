@@ -42,15 +42,17 @@ void USART2_IRQHandler(void) {
 
 void RS485_task_function(void* parameter) {
   RsInit(&RsSens);
-  RsSens.reg_hdle_stat = 0x70;
-  RsSens.reg_hdle_end = 0x7F;
-  RsRegHdle(&RsSens, DataRead_Handler);
+  RsSens.reg_hdle_stat = SENS_CARD_DATAREAD_REG_START;
+  RsSens.reg_hdle_end = SENS_CARD_REG_END;
+  RsRegHdle(&RsSens, SideCar_Sens_DevCtrl_Handler);
+  RsSens.reg_hdle_stat = SENS_CARD_DEVCTRL_REG_START;
+  RsSens.reg_hdle_end = SENS_CARD_DEVCTRL_REG_END;
+  RsRegHdle(&RsSens, SideCar_Sens_DataRead_Handler);
 
   RsError_t err;
 
   while (1) {
- 
-    if (RsChkAvailable(&RsSens)) {
+     if (RsChkAvailable(&RsSens)) {
       err = RS485Read(&RsSens);
 
       if (err == UNPKG_FINISH) {
