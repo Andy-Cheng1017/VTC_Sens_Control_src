@@ -42,6 +42,7 @@
 #include "pt100_task.h"
 #include "RS485_task.h"
 #include "temp_hum_task.h"
+#include "power_task.h"
 
 #define START_TASK_PRIO 1
 #define START_STK_SIZE 128
@@ -57,6 +58,9 @@
 
 #define TEMP_HUM_TASK_PRIO 2
 #define TEMP_HUM_STK_SIZE 256
+
+#define POWER_TASK_PRIO 3
+#define POWER_STK_SIZE 256
 
 #define SET_BIT_TO(var, bit, value) ((var) = (value) ? ((var) & ~(1 << (bit))) : ((var) | (1 << (bit))))
 
@@ -173,6 +177,9 @@ void start_task(void* pvParameters) {
   vTaskDelay(100);
   xTaskCreate((TaskFunction_t)temp_hum_task_function, (const char*)"Temp_Hum_task", (uint16_t)TEMP_HUM_STK_SIZE, (void*)NULL,
               (UBaseType_t)TEMP_HUM_TASK_PRIO, (TaskHandle_t*)&temp_hum_handler);
+  vTaskDelay(100);
+  xTaskCreate((TaskFunction_t)power_task_function, (const char*)"Power_task", (uint16_t)POWER_STK_SIZE, (void*)NULL, (UBaseType_t)POWER_TASK_PRIO,
+              (TaskHandle_t*)&power_handler);
   vTaskDelay(100);
   vTaskDelete(StartTask_Handler);
 }
