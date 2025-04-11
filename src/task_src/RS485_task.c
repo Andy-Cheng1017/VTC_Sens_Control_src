@@ -1,18 +1,19 @@
+#include "RS485_task.h"
+
 #include <stdio.h>
+
 #include "FreeRTOS.h"
+#include "RS485.h"
+#include "RS485_Region_handler.h"
 #include "task.h"
 
 #define SINGLE_DATA_MAX_SIZE 64
-#define MAX_CIRCLE_BUFFER_SIZE 128
-#define MAX_PKG_SIZE 128
-
-#include "RS485.h"
-#include "RS485_task.h"
-#include "RS485_Region_handler.h"
 
 #define MY_485_ADDR 0x22
 
 TaskHandle_t RS485Task_Handler;
+
+DECLARE_RS485_BUFFERS(RsSens, SINGLE_DATA_MAX_SIZE);
 
 Rs485_t RsSens = {
     .UART = USART2,
@@ -22,6 +23,8 @@ Rs485_t RsSens = {
     .StopBit = USART_STOP_1_BIT,
     .ip_addr = MY_485_ADDR,
     .root = false,
+
+    RS485_BUFFERS_INIT(RsSens, SINGLE_DATA_MAX_SIZE),
 };
 
 void USART2_IRQHandler(void) {
@@ -42,17 +45,10 @@ void USART2_IRQHandler(void) {
 
 void RS485_task_function(void* parameter) {
   RsInit(&RsSens);
-  RsSens.reg_hdle_stat = SENS_CARD_DATAREAD_REG_START;
-  RsSens.reg_hdle_end = SENS_CARD_REG_END;
-  RsRegHdle(&RsSens, SideCar_Sens_DevCtrl_Handler);
-  RsSens.reg_hdle_stat = SENS_CARD_DEVCTRL_REG_START;
-  RsSens.reg_hdle_end = SENS_CARD_DEVCTRL_REG_END;
-  RsRegHdle(&RsSens, SideCar_Sens_DataRead_Handler);
-
   RsError_t err;
 
   while (1) {
-     if (RsChkAvailable(&RsSens)) {
+    if (RsChkAvailable(&RsSens)) {
       err = RS485Read(&RsSens);
 
       if (err == UNPKG_FINISH) {

@@ -14,6 +14,10 @@ extern uint16_t adc1_ordinary_valuetab[ADC1_SAMPLE_NUM][ADC1_CHANNEL_NUM];
 extern TaskHandle_t pressure_handler;
 
 typedef struct {
+  int32_t pt100_1_temp_m;
+  int32_t pt100_2_temp_m;
+  int32_t pt100_3_temp_m;
+  int32_t pt100_4_temp_m;
   int16_t press_1_val_kpa;
   int16_t press_2_val_kpa;
   uint8_t leak_sensor;

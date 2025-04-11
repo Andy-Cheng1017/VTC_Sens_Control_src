@@ -8,15 +8,6 @@
 extern TaskHandle_t pt100_handler;
 
 typedef struct {
-  int32_t pt100_1_temp_m;
-  int32_t pt100_2_temp_m;
-  int32_t pt100_3_temp_m;
-  int32_t pt100_4_temp_m;
-} Pt100Stat_t;
-
-extern Pt100Stat_t Pt100Stat;
-
-typedef struct {
   int32_t pt100_1_raw_l_val;
   int32_t pt100_2_raw_l_val;
   int32_t pt100_3_raw_l_val;

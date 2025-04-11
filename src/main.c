@@ -43,6 +43,7 @@
 #include "RS485_task.h"
 #include "temp_hum_task.h"
 #include "power_task.h"
+#include "RS485_Region_handler.h"
 
 #define START_TASK_PRIO 1
 #define START_STK_SIZE 128
@@ -156,6 +157,9 @@ int main(void) {
   exint_interrupt_enable(EXINT_LINE_15, TRUE);
   exint_software_interrupt_event_generate(EXINT_LINE_15);
   wk_delay_ms(1);
+
+  RsRegHdle(SideCar_Sens_DataRead_Handler, SENS_CARD_DATAREAD_REG_START, SENS_CARD_REG_END);
+  RsRegHdle(SideCar_Sens_DevCtrl_Handler, SENS_CARD_DEVCTRL_REG_START, SENS_CARD_DEVCTRL_REG_END);
 
   /* add user code end 2 */
 

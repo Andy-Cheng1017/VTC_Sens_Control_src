@@ -2,6 +2,7 @@
 #include <string.h>
 #include "pt100_task.h"
 #include "pt100.h"
+#include "pressure_task.h"
 #include "MCP342x_wrap.h"
 #include "Two_Pt_Cal.h"
 
@@ -20,8 +21,6 @@ Pt100I2cParam_t Pt100I2cParam = {
     .mcp_i2c_addr = 0xD0,
     .adc_gain = 3,
 };
-
-Pt100Stat_t Pt100Stat = {0};
 
 Pt100TwoCal_t Pt100TwoCal = {
     .pt100_1_raw_l_val = 25684,
@@ -97,7 +96,7 @@ void pt100_task_function(void* pvParameters) {
 
     err = PT100_MCP_ReadAndCalcTemp(&Pt100I2cParam, MCP342x_CHANNEL_1, &raw_val);
     if (err == errorNone) {
-      Pt100Stat.pt100_3_temp_m = Cal_Apply(&PtCal_1, raw_val);
+      SensCardStat.pt100_3_temp_m = Cal_Apply(&PtCal_1, raw_val);
       // log_i("pt100_1_temp_m: %d", Pt100Stat.pt100_1_temp_m);
     } else {
       // log_e("MCP342x_convertAndRead error: %d", err);
@@ -105,7 +104,7 @@ void pt100_task_function(void* pvParameters) {
 
     err = PT100_MCP_ReadAndCalcTemp(&Pt100I2cParam, MCP342x_CHANNEL_2, &raw_val);
     if (err == errorNone) {
-      Pt100Stat.pt100_4_temp_m = Cal_Apply(&PtCal_2, raw_val);
+      SensCardStat.pt100_4_temp_m = Cal_Apply(&PtCal_2, raw_val);
       // log_i("pt100_2_temp_m: %d", Pt100Stat.pt100_2_temp_m);
     } else {
       // log_e("MCP342x_convertAndRead error: %d", err);
@@ -113,7 +112,7 @@ void pt100_task_function(void* pvParameters) {
 
     err = PT100_MCP_ReadAndCalcTemp(&Pt100I2cParam, MCP342x_CHANNEL_3, &raw_val);
     if (err == errorNone) {
-      Pt100Stat.pt100_1_temp_m = Cal_Apply(&PtCal_3, raw_val);
+      SensCardStat.pt100_1_temp_m = Cal_Apply(&PtCal_3, raw_val);
       // log_i("pt100_3_temp_m: %d", Pt100Stat.pt100_3_temp_m);
     } else {
       // log_e("MCP342x_convertAndRead error: %d", err);
@@ -121,7 +120,7 @@ void pt100_task_function(void* pvParameters) {
 
     err = PT100_MCP_ReadAndCalcTemp(&Pt100I2cParam, MCP342x_CHANNEL_4, &raw_val);
     if (err == errorNone) {
-      Pt100Stat.pt100_2_temp_m = Cal_Apply(&PtCal_4, raw_val);
+      SensCardStat.pt100_2_temp_m = Cal_Apply(&PtCal_4, raw_val);
       // log_i("pt100_4_temp_m: %d", Pt100Stat.pt100_4_temp_m);
     } else {
       // log_e("MCP342x_convertAndRead error: %d", err);
