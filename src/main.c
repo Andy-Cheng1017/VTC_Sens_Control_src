@@ -123,6 +123,9 @@ int main(void) {
   /* init usart2 function. */
   wk_usart2_init();
 
+  /* init i2c1 function. */
+  wk_i2c1_init();
+
   /* init i2c2 function. */
   wk_i2c2_init();
 
@@ -140,9 +143,6 @@ int main(void) {
 
   /* init tmr3 function. */
   wk_tmr3_init();
-
-  /* init tmr15 function. */
-  wk_tmr15_init();
 
   /* add user code begin 2 */
   exint_interrupt_enable(EXINT_LINE_3, TRUE);
