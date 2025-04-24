@@ -7,9 +7,7 @@
 #include "RS485_Region_handler.h"
 #include "task.h"
 
-#define SINGLE_DATA_MAX_SIZE 64
-
-#define MY_485_ADDR 0x22
+#define SINGLE_DATA_MAX_SIZE 128
 
 TaskHandle_t RS485Task_Handler;
 
@@ -21,8 +19,8 @@ Rs485_t RsSens = {
     .BaudRate = BR_115200,
     .DataBit = USART_DATA_8BITS,
     .StopBit = USART_STOP_1_BIT,
-    .ip_addr = MY_485_ADDR,
-    .root = false,
+    .ip_addr = SENS_RS485_ADDR,
+    .root = true,
 
     RS485_BUFFERS_INIT(RsSens, SINGLE_DATA_MAX_SIZE),
 };

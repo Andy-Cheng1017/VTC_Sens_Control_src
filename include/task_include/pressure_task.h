@@ -4,20 +4,17 @@
 #include "FreeRTOS.h"
 #include "task.h"
 
-#define ADC1_CHANNEL_NUM 3
-#define ADC1_SAMPLE_NUM 32
-#define SMP_NUM_PWR (__builtin_ctz(ADC1_SAMPLE_NUM))
+#define ADC1_CHANNEL_COUNT 3
+#define ADC1_SAMPLE_COUNT 32
+#define SMP_CNT_PWR (__builtin_ctz(ADC1_SAMPLE_COUNT))
 
-_Static_assert((ADC1_SAMPLE_NUM & (ADC1_SAMPLE_NUM - 1)) == 0, "ADC1_SAMPLE_NUM must be a power of 2");
+_Static_assert((ADC1_SAMPLE_COUNT & (ADC1_SAMPLE_COUNT - 1)) == 0, "ADC1_SAMPLE_COUNT must be a power of 2");
 
-extern uint16_t adc1_ordinary_valuetab[ADC1_SAMPLE_NUM][ADC1_CHANNEL_NUM];
+extern uint16_t adc1_ordinary_valuetab[ADC1_SAMPLE_COUNT][ADC1_CHANNEL_COUNT];
 extern TaskHandle_t pressure_handler;
 
 typedef struct {
-  int32_t pt100_1_temp_m;
-  int32_t pt100_2_temp_m;
-  int32_t pt100_3_temp_m;
-  int32_t pt100_4_temp_m;
+  int32_t pt100_temp_m[4];
   int16_t press_1_val_kpa;
   int16_t press_2_val_kpa;
   uint8_t leak_sensor;
@@ -40,6 +37,7 @@ extern PressTwoCal_t PressTwoCal;
 
 typedef struct {
   uint16_t pressure_pump;
+  uint8_t pt100_enable;
 }SensCardCtrl_t;
 
 extern SensCardCtrl_t SensCardCtrl;
