@@ -1,11 +1,10 @@
-#include "RS485_task.h"
-
 #include <stdio.h>
-
+#include "RS485_task.h"
+#include "task.h"
 #include "FreeRTOS.h"
 #include "RS485.h"
 #include "RS485_Region_handler.h"
-#include "task.h"
+#include "main.h"
 
 #define SINGLE_DATA_MAX_SIZE 256
 
@@ -54,11 +53,16 @@ void RS485_task_function(void* parameter) {
       } else if (err != RS485_OK) {
         continue;
       }
+  
+      xSemaphoreTake(RS485RegionMutex, RS485_SEMAPHORE_TIMEOUT);
       err = RS485ReadHandler(&RsSens);
 
       if (err != RS485_OK) {
+        xSemaphoreGive(RS485RegionMutex);
         continue;
       }
+
+      xSemaphoreGive(RS485RegionMutex);
 
       err = RS485Write(&RsSens);
 

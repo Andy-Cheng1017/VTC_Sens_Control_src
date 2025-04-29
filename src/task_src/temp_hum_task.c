@@ -6,6 +6,7 @@
 #include "FreeRTOS.h"
 #include "RS485.h"
 #include "task.h"
+#include "RS485_Region_handler_enum.h"
 
 #define SINGLE_DATA_MAX_SIZE 16
 
@@ -82,7 +83,7 @@ void temp_hum_task_function(void *pvParameters) {
           break;
         } else {
         }
-        RsTempHum.reg_hdle_stat = 0X77;
+        RsTempHum.reg_hdle_stat = SIDECAR_TEMPERATURE;
 
         ret = RS485ReadHandler(&RsTempHum);
 

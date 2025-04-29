@@ -44,6 +44,7 @@
 #include "temp_hum_task.h"
 #include "power_task.h"
 #include "RS485_Region_handler.h"
+#include "main.h"
 
 #define START_TASK_PRIO 1
 #define START_STK_SIZE 128
@@ -51,7 +52,7 @@
 #define PT100_TASK_PRIO 3
 #define PT100_STK_SIZE 256
 
-#define RS485_TASK_PRIO 3
+#define RS485_TASK_PRIO 4
 #define RS485_STK_SIZE 512
 
 #define PRESSURE_TASK_PRIO 3
@@ -60,10 +61,12 @@
 #define TEMP_HUM_TASK_PRIO 2
 #define TEMP_HUM_STK_SIZE 256
 
-#define POWER_TASK_PRIO 3
+#define POWER_TASK_PRIO 2
 #define POWER_STK_SIZE 256
 
 #define SET_BIT_TO(var, bit, value) ((var) = (value) ? ((var) & ~(1 << (bit))) : ((var) | (1 << (bit))))
+
+SemaphoreHandle_t RS485RegionMutex = NULL;
 
 TaskHandle_t StartTask_Handler;
 void start_task(void* pvParameters);
@@ -157,6 +160,13 @@ int main(void) {
   exint_interrupt_enable(EXINT_LINE_15, TRUE);
   exint_software_interrupt_event_generate(EXINT_LINE_15);
   wk_delay_ms(1);
+
+
+  RS485RegionMutex = xSemaphoreCreateMutex();
+
+  if (RS485RegionMutex == NULL) {
+    while (1);
+  }
 
   RsRegHdle_Init();
 
