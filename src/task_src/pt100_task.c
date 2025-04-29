@@ -22,60 +22,62 @@ Pt100I2cParam_t Pt100I2cParam = {
     .adc_gain = 3,
 };
 
-Pt100TwoCal_t Pt100TwoCal = {
-    .pt100_1_raw_l_val = 25684,
-    .pt100_2_raw_l_val = 25684,
-    .pt100_3_raw_l_val = 25684,
-    .pt100_4_raw_l_val = 25684,
-    .pt100_1_raw_h_val = 90770,
-    .pt100_2_raw_h_val = 90770,
-    .pt100_3_raw_h_val = 90770,
-    .pt100_4_raw_h_val = 90770,
+Pt100TwoCal_t SensPt100TwoCal = {
+    .pt100_raw_h_val =
+        {
+            [0] = 25684,
+            [1] = 25684,
+            [2] = 25684,
+            [3] = 25684,
+        },
+    .pt100_raw_l_val =
+        {
+            [0] = 90770,
+            [1] = 90770,
+            [2] = 90770,
+            [3] = 90770,
+        },
     .pt100_ideal_l_val = 25684,  // 110ohm
     .pt100_ideal_h_val = 90770,  // 135ohm
 };
 
 CalParam_t PtCal[4] = {
-    [0] =
-        {
-            .offset = 0.0f,
-            .slope = 1.0f,
-            .raw_l = &Pt100TwoCal.pt100_1_raw_l_val,
-            .raw_h = &Pt100TwoCal.pt100_1_raw_h_val,
-            .ideal_l = &Pt100TwoCal.pt100_ideal_l_val,
-            .ideal_h = &Pt100TwoCal.pt100_ideal_h_val,
-            .data_type = DATA_TYPE_INT32,
-        },
-    [1] =
-        {
-            .offset = 0.0f,
-            .slope = 1.0f,
-            .raw_l = &Pt100TwoCal.pt100_2_raw_l_val,
-            .raw_h = &Pt100TwoCal.pt100_2_raw_h_val,
-            .ideal_l = &Pt100TwoCal.pt100_ideal_l_val,
-            .ideal_h = &Pt100TwoCal.pt100_ideal_h_val,
-            .data_type = DATA_TYPE_INT32,
-        },
-    [2] =
-        {
-            .offset = 0.0f,
-            .slope = 1.0f,
-            .raw_l = &Pt100TwoCal.pt100_3_raw_l_val,
-            .raw_h = &Pt100TwoCal.pt100_3_raw_h_val,
-            .ideal_l = &Pt100TwoCal.pt100_ideal_l_val,
-            .ideal_h = &Pt100TwoCal.pt100_ideal_h_val,
-            .data_type = DATA_TYPE_INT32,
-        },
-    [3] =
-        {
-            .offset = 0.0f,
-            .slope = 1.0f,
-            .raw_l = &Pt100TwoCal.pt100_4_raw_l_val,
-            .raw_h = &Pt100TwoCal.pt100_4_raw_h_val,
-            .ideal_l = &Pt100TwoCal.pt100_ideal_l_val,
-            .ideal_h = &Pt100TwoCal.pt100_ideal_h_val,
-            .data_type = DATA_TYPE_INT32,
-        },
+    {
+        .offset = 0.0f,
+        .slope = 1.0f,
+        .raw_l = &SensPt100TwoCal.pt100_raw_l_val[0],
+        .raw_h = &SensPt100TwoCal.pt100_raw_h_val[0],
+        .ideal_l = &SensPt100TwoCal.pt100_ideal_l_val,
+        .ideal_h = &SensPt100TwoCal.pt100_ideal_h_val,
+        .data_type = DATA_TYPE_INT32,
+    },
+    {
+        .offset = 0.0f,
+        .slope = 1.0f,
+        .raw_l = &SensPt100TwoCal.pt100_raw_l_val[1],
+        .raw_h = &SensPt100TwoCal.pt100_raw_h_val[1],
+        .ideal_l = &SensPt100TwoCal.pt100_ideal_l_val,
+        .ideal_h = &SensPt100TwoCal.pt100_ideal_h_val,
+        .data_type = DATA_TYPE_INT32,
+    },
+    {
+        .offset = 0.0f,
+        .slope = 1.0f,
+        .raw_l = &SensPt100TwoCal.pt100_raw_l_val[2],
+        .raw_h = &SensPt100TwoCal.pt100_raw_h_val[2],
+        .ideal_l = &SensPt100TwoCal.pt100_ideal_l_val,
+        .ideal_h = &SensPt100TwoCal.pt100_ideal_h_val,
+        .data_type = DATA_TYPE_INT32,
+    },
+    {
+        .offset = 0.0f,
+        .slope = 1.0f,
+        .raw_l = &SensPt100TwoCal.pt100_raw_l_val[3],
+        .raw_h = &SensPt100TwoCal.pt100_raw_h_val[3],
+        .ideal_l = &SensPt100TwoCal.pt100_ideal_l_val,
+        .ideal_h = &SensPt100TwoCal.pt100_ideal_h_val,
+        .data_type = DATA_TYPE_INT32,
+    },
 };
 
 uint16_t MCP_Remap(int i) {
@@ -108,8 +110,8 @@ void pt100_task_function(void* pvParameters) {
       if (SensCardCtrl.pt100_enable & (1 << i)) {
         err = PT100_MCP_ReadAndCalcTemp(&Pt100I2cParam, MCP_Remap(i), &raw_val);
         if (err == errorNone) {
-          SensCardStat.pt100_temp_m[i] = Cal_Apply(&PtCal[i], raw_val);
-          // log_i("pt100_%d_temp_m: %d", i + 1, SensCardStat.pt100_temp_m[i]);
+          SensCardStat.pt100_temp_x10[i] = Cal_Apply(&PtCal[i], raw_val) / 100;
+          // log_i("pt100_%d_temp_m: %d", i + 1, SensCardStat.pt100_temp_x10[i]);
         } else {
           // log_e("MCP342x_convertAndRead error: %d", err);
         }

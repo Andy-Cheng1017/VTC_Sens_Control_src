@@ -5,10 +5,7 @@
 
 TaskHandle_t power_handler;
 
-PowerStat_t Power_1_Stat = {0};
-PowerStat_t Power_2_Stat = {0};
-PowerStat_t Power_3_Stat = {0};
-PowerStat_t Power_4_Stat = {0};
+PowerStat_t SideCarPower_Stat[4] = {0};
 
 void power_task_function(void* pvParameters) {
 

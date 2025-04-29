@@ -158,8 +158,7 @@ int main(void) {
   exint_software_interrupt_event_generate(EXINT_LINE_15);
   wk_delay_ms(1);
 
-  RsRegHdle(SideCar_Sens_DataRead_Handler, SENS_CARD_DATAREAD_REG_START, SENS_CARD_REG_END);
-  RsRegHdle(SideCar_Sens_DevCtrl_Handler, SENS_CARD_DEVCTRL_REG_START, SENS_CARD_DEVCTRL_REG_END);
+  RsRegHdle_Init();
 
   /* add user code end 2 */
 

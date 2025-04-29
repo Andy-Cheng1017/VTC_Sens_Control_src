@@ -7,7 +7,7 @@
 #include "RS485_Region_handler.h"
 #include "task.h"
 
-#define SINGLE_DATA_MAX_SIZE 128
+#define SINGLE_DATA_MAX_SIZE 256
 
 TaskHandle_t RS485Task_Handler;
 

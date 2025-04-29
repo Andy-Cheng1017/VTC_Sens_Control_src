@@ -16,33 +16,40 @@ uint16_t adc1_ordinary_valuetab[ADC1_SAMPLE_COUNT][ADC1_CHANNEL_COUNT] = {0};
 
 TaskHandle_t pressure_handler;
 
-PressTwoCal_t PressTwoCal = {
-    .press_1_raw_l_val = 0,
-    .press_2_raw_l_val = 0,
-    .press_1_raw_h_val = 2000,
-    .press_2_raw_h_val = 2000,
+SensPressTwoCal_t SensPressTwoCal = {
+    .press_raw_l_val =
+        {
+            [0] = 0,
+            [1] = 0,
+        },
+    .press_raw_h_val =
+        {
+            [0] = 2000,
+            [1] = 2000,
+        },
     .press_ideal_l_val = 0,     // 4ma
     .press_ideal_h_val = 2000,  // 7.2ma
 };
 
-CalParam_t PressCal_1 = {
-    .offset = 0.0f,
-    .slope = 1.0f,
-    .raw_l = &PressTwoCal.press_1_raw_l_val,
-    .raw_h = &PressTwoCal.press_1_raw_h_val,
-    .ideal_l = &PressTwoCal.press_ideal_l_val,
-    .ideal_h = &PressTwoCal.press_ideal_h_val,
-    .data_type = DATA_TYPE_INT16,
-};
-
-CalParam_t PressCal_2 = {
-    .offset = 0.0f,
-    .slope = 1.0f,
-    .raw_l = &PressTwoCal.press_2_raw_l_val,
-    .raw_h = &PressTwoCal.press_2_raw_h_val,
-    .ideal_l = &PressTwoCal.press_ideal_l_val,
-    .ideal_h = &PressTwoCal.press_ideal_h_val,
-    .data_type = DATA_TYPE_INT16,
+CalParam_t PressCal[2] = {
+    {
+        .offset = 0.0f,
+        .slope = 1.0f,
+        .raw_l = &SensPressTwoCal.press_raw_l_val[0],
+        .raw_h = &SensPressTwoCal.press_raw_h_val[0],
+        .ideal_l = &SensPressTwoCal.press_ideal_l_val,
+        .ideal_h = &SensPressTwoCal.press_ideal_h_val,
+        .data_type = DATA_TYPE_INT16,
+    },
+    {
+        .offset = 0.0f,
+        .slope = 1.0f,
+        .raw_l = &SensPressTwoCal.press_raw_l_val[1],
+        .raw_h = &SensPressTwoCal.press_raw_h_val[1],
+        .ideal_l = &SensPressTwoCal.press_ideal_l_val,
+        .ideal_h = &SensPressTwoCal.press_ideal_h_val,
+        .data_type = DATA_TYPE_INT16,
+    },
 };
 
 ErrConv_t err_conv;
@@ -60,10 +67,10 @@ void pressure_task_function(void* pvParameters) {
 
   Conv_Init(&PressConv);
 
-  if (Cal_CalcParams(&PressCal_1)) {
+  if (Cal_CalcParams(&PressCal[0])) {
     // log_e("PressCal_1 CalcParams failed");
   }
-  if (Cal_CalcParams(&PressCal_2)) {
+  if (Cal_CalcParams(&PressCal[1])) {
     // log_e("PressCal_2 CalcParams failed");
   }
 
@@ -81,13 +88,11 @@ void pressure_task_function(void* pvParameters) {
       }
     }
 
-    err_conv = Conv_GetVal_Volt(&PressConv, (((float)(adc_sum_val[0] >> SMP_CNT_PWR)) / (adc_sum_val[ADC1_CHANNEL_COUNT - 1] >> SMP_CNT_PWR)) * 1.2f,
-                                &raw_val);
-    SensCardStat.press_1_val_kpa = (int16_t)Cal_Apply(&PressCal_1, raw_val);
-
-    err_conv = Conv_GetVal_Volt(&PressConv, (((float)(adc_sum_val[1] >> SMP_CNT_PWR)) / (adc_sum_val[ADC1_CHANNEL_COUNT - 1] >> SMP_CNT_PWR)) * 1.2f,
-                                &raw_val);
-    SensCardStat.press_2_val_kpa = (int16_t)Cal_Apply(&PressCal_2, raw_val);
+    for (int i = 0; i < 2; i++) {
+      err_conv = Conv_GetVal_Volt(&PressConv,
+                                  (((float)(adc_sum_val[i] >> SMP_CNT_PWR)) / (adc_sum_val[ADC1_CHANNEL_COUNT - 1] >> SMP_CNT_PWR)) * 1.2f, &raw_val);
+      SensCardStat.press_val_kpa[i] = (int16_t)Cal_Apply(&PressCal[i], raw_val);
+    }
   }
 
   vTaskDelete(NULL);

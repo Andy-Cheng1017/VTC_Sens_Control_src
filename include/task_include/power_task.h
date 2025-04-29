@@ -17,8 +17,5 @@ typedef struct {
   uint16_t fan_2;
 } PowerStat_t;
 
-extern PowerStat_t Power_1_Stat;
-extern PowerStat_t Power_2_Stat;
-extern PowerStat_t Power_3_Stat;
-extern PowerStat_t Power_4_Stat;
+extern PowerStat_t SideCarPower_Stat[4];
 #endif

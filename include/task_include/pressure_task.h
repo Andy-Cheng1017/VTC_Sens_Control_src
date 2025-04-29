@@ -14,7 +14,8 @@ extern uint16_t adc1_ordinary_valuetab[ADC1_SAMPLE_COUNT][ADC1_CHANNEL_COUNT];
 extern TaskHandle_t pressure_handler;
 
 typedef struct {
-  int32_t pt100_temp_m[4];
+  int32_t pt100_temp_x10[4];
+  int16_t press_val_kpa[2];
   int16_t press_1_val_kpa;
   int16_t press_2_val_kpa;
   uint8_t leak_sensor;
@@ -25,15 +26,13 @@ typedef struct {
 extern SensCardStat_t SensCardStat;
 
 typedef struct {
-  int16_t press_1_raw_l_val;
-  int16_t press_2_raw_l_val;
-  int16_t press_1_raw_h_val;
-  int16_t press_2_raw_h_val;
+  int16_t press_raw_l_val[4];
+  int16_t press_raw_h_val[4];
   int16_t press_ideal_l_val;
   int16_t press_ideal_h_val;
-} PressTwoCal_t;
+} SensPressTwoCal_t;
 
-extern PressTwoCal_t PressTwoCal;
+extern SensPressTwoCal_t SensPressTwoCal;
 
 typedef struct {
   uint16_t pressure_pump;
